@@ -15,6 +15,7 @@ default-members = ["bin/artemis", "bin/cli"]
 ## eth
 ethers = { version = "2", features = ["ws", "rustls"]}
 ethers-signers = "2.0"
+alloy = { version = "0.7.3", features = ["full"] }
 
 
 [profile.release]

@@ -6,9 +6,9 @@ use std::{
 use crate::types::Executor;
 use anyhow::{Context, Result};
 use async_trait::async_trait;
-use ethers::{
-    providers::Middleware,
-    types::{transaction::eip2718::TypedTransaction, U256},
+use alloy::{
+    providers::Provider, 
+    rpc::types::TransactionRequest
 };
 
 /// An executor that sends transactions to the mempool.
@@ -28,21 +28,18 @@ pub struct GasBidInfo {
 
 #[derive(Debug, Clone)]
 pub struct SubmitTxToMempool {
-    pub tx: TypedTransaction,
+    pub tx: TransactionRequest,
     pub gas_bid_info: Option<GasBidInfo>,
 }
 
-impl<M: Middleware> MempoolExecutor<M> {
+impl<P: Provider> MempoolExecutor<P> {
     pub fn new(client: Arc<M>) -> Self {
         Self { client }
     }
 }
 
 #[async_trait]
-impl<M> Executor<SubmitTxToMempool> for MempoolExecutor<M>
-where
-    M: Middleware,
-    M::Error: 'static,
+impl<P: Provider> Executor<SubmitTxToMempool> for MempoolExecutor<M>
 {
     /// Send a transaction to the mempool.
     async fn execute(&self, mut action: SubmitTxToMempool) -> Result<()> {
