@@ -4,7 +4,7 @@ use async_trait::async_trait;
 
 use alloy::{
     contract as alloy_contract,
-    rpc::types::{Filter, Log, Transaction},
+    rpc::types::{Filter, Log},
 };
 
 use std::sync::Arc;
@@ -37,7 +37,7 @@ impl<
     N: alloy_contract::private::Network,
 > Collector<Log> for LogCollector<T, P, N>
 {
-    async fn get_event_stream(&self) -> Result<CollectorStream<'_, Log>> {
+    async fn get_event_stream<'a>(&'a self) -> Result<CollectorStream<'a, Log>> {
         let sub = self.provider.subscribe_logs(&self.filter).await?;
         let mut stream = sub.into_stream();
         let stream = stream.filter_map(Some);

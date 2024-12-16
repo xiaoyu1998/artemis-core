@@ -38,7 +38,7 @@ impl<
     N: alloy_contract::private::Network,
 > Collector<N::TransactionResponse> for MempoolCollector<T, P, N>
 {
-    async fn get_event_stream(&self) -> Result<CollectorStream<'_, N::TransactionResponse>> {
+    async fn get_event_stream<'a>(&'a self) -> Result<CollectorStream<'a, N::TransactionResponse>> {
         let sub = self.provider.subscribe_pending_transactions().await?;
         let mut stream = sub.into_stream().take(256);
         let stream = stream.filter_map(|tx_hash| {

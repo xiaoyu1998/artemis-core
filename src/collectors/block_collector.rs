@@ -43,7 +43,7 @@ impl<
     N: alloy_contract::private::Network,
 > Collector<NewBlock> for BlockCollector<T, P, N>
 {
-    async fn get_event_stream(&self) -> Result<CollectorStream<'_, NewBlock>> {
+    async fn get_event_stream<'a>(&'a self) -> Result<CollectorStream<'a, NewBlock>> {
         let sub = self.provider.subscribe_blocks().await?;
         let mut stream = sub.into_stream().take(2);
         let stream = stream.filter_map(|block| match block.requests_hash() {
