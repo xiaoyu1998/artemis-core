@@ -1,26 +1,25 @@
-[workspace]
-members = [
-    "bin/artemis",
-    "bin/cli",
-    "crates/artemis-core",
-    "crates/generator",
-    "crates/strategies/*",
-    "crates/clients/*", 
-    "examples/*",
-]
+[package]
+name = "artemis-core"
+version = "0.1.0"
+edition = "2021"
 
-default-members = ["bin/artemis", "bin/cli"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[workspace.dependencies]
+[dependencies]
+
 ## eth
-ethers = { version = "2", features = ["ws", "rustls"]}
-ethers-signers = "2.0"
 alloy = { version = "0.7.3", features = ["full"] }
 
+## async
+async-trait = "0.1.64"
+futures = "0.3"
+reqwest = { version = "0.11.14", default-features = false, features = ["rustls-tls"] }
+tokio = { version = "1.18", features = ["full"] }
+tokio-stream = { version = "0.1", features = ['sync'] }
+jsonrpsee = { version = "0.18", features = ["client", "async-client"] }
 
-[profile.release]
-panic = 'abort'
-
-[profile.dev]
-panic = 'abort'
-
+## misc
+anyhow = "1.0.70"
+thiserror = "1.0.40"
+tracing = "0.1.37"
+tower = "0.4.13"

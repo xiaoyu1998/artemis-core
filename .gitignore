@@ -12,7 +12,6 @@ out/
 # broadcast logs 
 broadcast/
 
-monitoring/grafana/data/
 
 # Dotenv file
 .env
