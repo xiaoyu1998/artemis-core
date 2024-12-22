@@ -9,7 +9,7 @@ use async_trait::async_trait;
 use alloy::{
     contract as alloy_contract,
     primitives::{U256, U64, U128},
-    network::TransactionBuilder,
+    network::{Ethereum, Network, TransactionBuilder},
 };
 
 /// An executor that sends transactions to the mempool.
@@ -29,8 +29,9 @@ pub struct GasBidInfo {
 }
 
 #[derive(Debug, Clone)]
-pub struct SubmitTxToMempool<N: alloy_contract::private::Network> {
-    pub tx: N::TransactionRequest,
+pub struct SubmitTxToMempool<N: alloy::providers::Network> {
+    //pub tx: alloy_contract::private::Network::TransactionRequest,
+    pub tx: <N as Network>::TransactionRequest,
     pub gas_bid_info: Option<GasBidInfo>,
 }
 

@@ -8,7 +8,7 @@ use tokio_stream::StreamExt;
 use alloy::{
     providers::Provider, 
     rpc::types::Transaction,
-    network::Ethereum,
+    network::{Ethereum, Network, TransactionBuilder},
 };
 
 use crate::collectors::block_collector::NewBlock;
@@ -105,6 +105,6 @@ pub enum Events {
 }
 
 /// Convenience enum containing all the actions that can be executed by executors.
-pub enum Actions {
-    SubmitTxToMempool(SubmitTxToMempool<Ethereum>),
+pub enum Actions<N : alloy::providers::Network> {
+    SubmitTxToMempool(SubmitTxToMempool<N>),
 }
