@@ -6,9 +6,7 @@ use tokio_stream::Stream;
 use tokio_stream::StreamExt;
 
 use alloy::{
-    providers::Provider, 
     rpc::types::Transaction,
-    network::{Ethereum, Network, TransactionBuilder},
 };
 
 use crate::collectors::block_collector::NewBlock;

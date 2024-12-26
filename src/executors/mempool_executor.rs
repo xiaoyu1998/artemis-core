@@ -1,5 +1,4 @@
 use std::{
-    ops::{Div, Mul},
     sync::Arc,
 };
 
@@ -8,8 +7,8 @@ use anyhow::{Context, Result};
 use async_trait::async_trait;
 use alloy::{
     contract as alloy_contract,
-    primitives::{U256, U64, U128},
-    network::{Ethereum, Network, TransactionBuilder},
+    primitives::{U256},
+    network::{Network, TransactionBuilder},
 };
 
 /// An executor that sends transactions to the mempool.
@@ -22,7 +21,7 @@ pub struct MempoolExecutor<T, P, N = alloy_contract::private::Ethereum> {
 #[derive(Debug, Clone)]
 pub struct GasBidInfo {
     /// Total profit expected from opportunity
-    pub total_profit: U256,
+    pub total_profit: u128,
 
     /// Percentage of bid profit to use for gas
     pub bid_percentage: u64,
@@ -54,11 +53,11 @@ impl<
 {
     /// Send a transaction to the mempool.
     async fn execute(&self, mut action: SubmitTxToMempool<N>) -> Result<()> {
-        let gas_usage = self
-            .client
-            .estimate_gas(&action.tx)
-            .await
-            .context("Error estimating gas usage: {}")?;
+        // let gas_usage = self
+        //     .client
+        //     .estimate_gas(&action.tx)
+        //     .await
+        //     .context("Error estimating gas usage: {}")?;
 
         let bid_gas_price:u128;
         //TODO:Should be calc from profit

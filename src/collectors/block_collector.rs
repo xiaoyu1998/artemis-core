@@ -45,7 +45,7 @@ impl<
 {
     async fn get_event_stream<'a>(&'a self) -> Result<CollectorStream<'a, NewBlock>> {
         let sub = self.provider.subscribe_blocks().await?;
-        let mut stream = sub.into_stream().take(2);
+        let stream = sub.into_stream().take(2);
         let stream = stream.filter_map(|block| match block.requests_hash() {
             Some(hash) => Some(NewBlock { hash, number: block.number() }),
             None => None,

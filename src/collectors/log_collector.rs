@@ -39,7 +39,7 @@ impl<
 {
     async fn get_event_stream<'a>(&'a self) -> Result<CollectorStream<'a, Log>> {
         let sub = self.provider.subscribe_logs(&self.filter).await?;
-        let mut stream = sub.into_stream();
+        let stream = sub.into_stream();
         let stream = stream.filter_map(Some);
         Ok(Box::pin(stream))
     }
