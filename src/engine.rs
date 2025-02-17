@@ -30,8 +30,8 @@ impl<E, A> Engine<E, A> {
             collectors: vec![],
             strategies: vec![],
             executors: vec![],
-            event_channel_capacity: 512,
-            action_channel_capacity: 512,
+            event_channel_capacity: 1024,
+            action_channel_capacity: 1024,
         }
     }
 
@@ -92,7 +92,12 @@ where
                             Ok(_) => {}
                             Err(e) => error!("error executing action: {}", e),
                         },
-                        Err(e) => error!("error receiving action: {}", e),
+                        //Err(e) => error!("error receiving action: {}", e),
+                        Err(e) => {
+                            // Handle channel closure
+                            error!("error receiving action: {}. Exiting.", e);
+                            break; // Exit the loop when the channel is closed
+                        }
                     }
                 }
             });
